@@ -25,10 +25,7 @@ namespace VideoPlayerFix
 			[HarmonyPatch("GetPlaybackEngine", typeof(string))]
 			public static void GetPlaybackEnginePatch(ref string mime)
 			{
-                if (Engine.Current.IsWine)
-                {
-                    mime = null;
-                }
+                mime = null;
                 UniLog.Log("Forced libVLC in a video player");
 			}
 		}
