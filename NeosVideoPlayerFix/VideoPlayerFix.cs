@@ -19,15 +19,15 @@ namespace VideoPlayerFix
             harmony.PatchAll();
         }
         [HarmonyPatch(typeof(VideoTextureProvider))]
-		class VideoPlayerFixPatch
-		{
+        class VideoPlayerFixPatch
+        {
             [HarmonyPrefix]
-			[HarmonyPatch("GetPlaybackEngine", typeof(string))]
-			public static void GetPlaybackEnginePatch(ref string mime)
-			{
+            [HarmonyPatch("GetPlaybackEngine", typeof(string))]
+            public static void GetPlaybackEnginePatch(ref string mime)
+            {
                 mime = null;
                 UniLog.Log("Forced libVLC in a video player");
-			}
-		}
+            }
+        }
     }
 }
