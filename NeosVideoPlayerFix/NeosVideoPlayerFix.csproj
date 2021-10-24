@@ -1,11 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netframework4.6.2</TargetFramework>
+    <TargetFramework>net4.7.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
+    <Reference Include="UnityNeos">
+      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/UnityNeos.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly">
       <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="NeosModLoader">
