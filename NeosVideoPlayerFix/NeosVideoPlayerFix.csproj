@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netframework4.6.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="NeosModLoader">
+      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/NeosModLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="FrooxEngine">
+      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/FrooxEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="BaseX">
+      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/BaseX.dll</HintPath>
+    </Reference>
+    <Reference Include="HarmonyLib">
+      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/0Harmony.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
