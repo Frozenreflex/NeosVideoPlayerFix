@@ -23,6 +23,9 @@
     <Reference Include="BaseX">
       <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/BaseX.dll</HintPath>
     </Reference>
+    <Reference Include="NYoutubeDL">
+      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/NYoutubeDL.dll</HintPath>
+    </Reference>
     <Reference Include="HarmonyLib">
       <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/0Harmony.dll</HintPath>
     </Reference>

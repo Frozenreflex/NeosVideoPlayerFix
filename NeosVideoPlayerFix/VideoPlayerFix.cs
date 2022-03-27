@@ -1,17 +1,21 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using NeosModLoader;
 using FrooxEngine;
 using BaseX;
 using UnityNeos;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using UMP;
+using NYoutubeDL;
 namespace VideoPlayerFix
 {
     public class VideoPlayerFix : NeosMod
     {
         public override string Name => "VideoPlayerFix";
         public override string Author => "Fro Zen";
-        public override string Version => "2.0.0";
+        public override string Version => "3.0.0";
 
         private static bool _first_trigger = false;
 
@@ -28,6 +32,13 @@ namespace VideoPlayerFix
                 UniLog.Log("Removed Unity Native from valid playback engines.");
             }
             harmony.PatchAll();
+            
+            if (Engine.Current.Platform != Platform.Linux) return;
+            
+            //patch internal setupprepare method
+            var ydlClass = AccessTools.AllTypes().First(i => i.ToString().EndsWith("Services.PreparationService"));
+            var ydlMethod = ydlClass.GetMethod("SetupPrepare", BindingFlags.NonPublic | BindingFlags.Static);
+            harmony.Patch(ydlMethod, new HarmonyMethod(typeof(YoutubeDLPatch).GetMethod("SetupPreparePatch")));
         }
 
         [HarmonyPatch(typeof(UMPSettings))]
@@ -44,7 +55,18 @@ namespace VideoPlayerFix
                 return false;
             }
         }
-        
+        class YoutubeDLPatch
+        {
+            public static void SetupPreparePatch(YoutubeDL ydl)
+            {
+                //NYoutubeDL has logic to set the youtube-dl path according to the environment PATH,
+                //...but it doesn't seem to work for some reason, so it gets set to just "youtube-dl"
+                //this will manually set it to a valid youtube-dl location
+                //if this doesn't work on your distro, change the location and recompile
+                //TODO: set this up to use NML's config system
+                ydl.YoutubeDlPath = "/usr/bin/youtube-dl";
+            }
+        }
         [HarmonyPatch(typeof(VideoTextureProvider))]
         class VideoTextureProviderPatch
         {
