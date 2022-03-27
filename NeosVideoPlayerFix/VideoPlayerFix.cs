@@ -16,7 +16,7 @@ namespace VideoPlayerFix
     {
         public override string Name => "VideoPlayerFix";
         public override string Author => "Fro Zen";
-        public override string Version => "3.1.0";
+        public override string Version => "3.2.0";
 
         private static bool _first_trigger = false;
         private static string YoutubeDLPath = "";
@@ -45,29 +45,16 @@ namespace VideoPlayerFix
             //find valid YTDL locations
             var path = Environment.GetEnvironmentVariable("PATH");
             var paths = path.Split(':');
-            var ytdlPaths = new List<string>();
-            var plusPaths = new List<string>();
-            foreach (var p in paths)
+            var programs = new [] {"yt-dlp", "youtube-dl"};
+            foreach (var p in programs)
             {
-                if (File.Exists(p + "/yt-dlp")) plusPaths.Add(p + "/yt-dlp");
-                if (File.Exists(p + "/youtube-dl")) ytdlPaths.Add(p + "/youtube-dl");
+                var test = paths.First(i => File.Exists($"{i}/{p}")) + $"/{p}";
+                if (test == $"/{p}") continue;
+                YoutubeDLPath = test;
+                UniLog.Log($"Patched NYoutubeDL with {p}: {test}");
+                return;
             }
-            if (plusPaths.Count > 0)
-            {
-                var p = plusPaths.First();
-                YoutubeDLPath = p;
-                UniLog.Log("Patched NYoutubeDL with yt-dlp: " + p);
-            }
-            else if (ytdlPaths.Count > 0)
-            {
-                var p = ytdlPaths.First();
-                YoutubeDLPath = p;
-                UniLog.Log("Patched NYoutubeDL with Youtube-DL: " + p);
-            }
-            else
-            {
-                UniLog.Log("Could not find a valid install for Youtube-DL or yt-dlp");
-            }
+            UniLog.Log("Could not find a valid program to patch NYoutubeDL with");
         }
 
         [HarmonyPatch(typeof(UMPSettings))]
