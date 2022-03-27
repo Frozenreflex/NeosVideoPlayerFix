@@ -44,7 +44,6 @@ namespace VideoPlayerFix
             
             //find valid YTDL locations
             var path = Environment.GetEnvironmentVariable("PATH");
-            UniLog.Log(path);
             var paths = path.Split(':');
             var ytdlPaths = new List<string>();
             var plusPaths = new List<string>();
