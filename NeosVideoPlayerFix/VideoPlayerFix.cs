@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HarmonyLib;
 using NeosModLoader;
 using FrooxEngine;
@@ -15,9 +16,10 @@ namespace VideoPlayerFix
     {
         public override string Name => "VideoPlayerFix";
         public override string Author => "Fro Zen";
-        public override string Version => "3.0.0";
+        public override string Version => "3.1.0";
 
         private static bool _first_trigger = false;
+        private static string YoutubeDLPath = "";
 
         public override void OnEngineInit()
         {
@@ -34,11 +36,39 @@ namespace VideoPlayerFix
             harmony.PatchAll();
             
             if (Engine.Current.Platform != Platform.Linux) return;
-            
+
             //patch internal setupprepare method
             var ydlClass = AccessTools.AllTypes().First(i => i.ToString().EndsWith("Services.PreparationService"));
             var ydlMethod = ydlClass.GetMethod("SetupPrepare", BindingFlags.NonPublic | BindingFlags.Static);
             harmony.Patch(ydlMethod, new HarmonyMethod(typeof(YoutubeDLPatch).GetMethod("SetupPreparePatch")));
+            
+            //find valid YTDL locations
+            var path = Environment.GetEnvironmentVariable("PATH");
+            UniLog.Log(path);
+            var paths = path.Split(':');
+            var ytdlPaths = new List<string>();
+            var plusPaths = new List<string>();
+            foreach (var p in paths)
+            {
+                if (File.Exists(p + "/yt-dlp")) plusPaths.Add(p + "/yt-dlp");
+                if (File.Exists(p + "/youtube-dl")) ytdlPaths.Add(p + "/youtube-dl");
+            }
+            if (plusPaths.Count > 0)
+            {
+                var p = plusPaths.First();
+                YoutubeDLPath = p;
+                UniLog.Log("Patched NYoutubeDL with yt-dlp: " + p);
+            }
+            else if (ytdlPaths.Count > 0)
+            {
+                var p = ytdlPaths.First();
+                YoutubeDLPath = p;
+                UniLog.Log("Patched NYoutubeDL with Youtube-DL: " + p);
+            }
+            else
+            {
+                UniLog.Log("Could not find a valid install for Youtube-DL or yt-dlp");
+            }
         }
 
         [HarmonyPatch(typeof(UMPSettings))]
@@ -62,9 +92,7 @@ namespace VideoPlayerFix
                 //NYoutubeDL has logic to set the youtube-dl path according to the environment PATH,
                 //...but it doesn't seem to work for some reason, so it gets set to just "youtube-dl"
                 //this will manually set it to a valid youtube-dl location
-                //if this doesn't work on your distro, change the location and recompile
-                //TODO: set this up to use NML's config system
-                ydl.YoutubeDlPath = "/usr/bin/youtube-dl";
+                ydl.YoutubeDlPath = YoutubeDLPath;
             }
         }
         [HarmonyPatch(typeof(VideoTextureProvider))]
