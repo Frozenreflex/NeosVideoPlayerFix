@@ -48,7 +48,7 @@ namespace VideoPlayerFix
             var programs = new [] {"yt-dlp", "youtube-dl"};
             foreach (var p in programs)
             {
-                var test = paths.First(i => File.Exists($"{i}/{p}")) + $"/{p}";
+                var test = paths.FirstOrDefault(i => File.Exists($"{i}/{p}")) + $"/{p}";
                 if (test == $"/{p}") continue;
                 YoutubeDLPath = test;
                 UniLog.Log($"Patched NYoutubeDL with {p}: {test}");
