@@ -4,5 +4,5 @@ A [NeosModLoader](https://github.com/zkxs/NeosModLoader) mod for [Neos VR](https
 
 A local install of YoutubeDL is required for Youtube videos to work on Linux Native. For distros that utilize APT:
 ```
-sudo apt install youtube-dl
+sudo apt install youtube-dl python python3
 ```
