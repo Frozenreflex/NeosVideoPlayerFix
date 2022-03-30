@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using HarmonyLib;
 using NeosModLoader;
 using FrooxEngine;
-using BaseX;
 using UnityNeos;
 using System.IO;
 using System.Linq;
@@ -31,7 +30,7 @@ namespace VideoPlayerFix
             if (nativePlayer != default)
             {
                 engines.Remove(nativePlayer);
-                UniLog.Log("Removed Unity Native from valid playback engines.");
+                Msg("Removed Unity Native from valid playback engines.");
             }
             harmony.PatchAll();
             
@@ -51,10 +50,10 @@ namespace VideoPlayerFix
                 var test = paths.FirstOrDefault(i => File.Exists($"{i}/{p}")) + $"/{p}";
                 if (test == $"/{p}") continue;
                 YoutubeDLPath = test;
-                UniLog.Log($"Patched NYoutubeDL with {p}: {test}");
+                Msg($"Patched NYoutubeDL with {p}: {test}");
                 return;
             }
-            UniLog.Log("Could not find a valid program to patch NYoutubeDL with");
+            Msg("Could not find a valid program to patch NYoutubeDL with");
         }
 
         [HarmonyPatch(typeof(UMPSettings))]
@@ -67,7 +66,7 @@ namespace VideoPlayerFix
                 //Fix video players by setting the library path properly
                 if (Engine.Current.Platform != Platform.Linux) return true;
                 __result = Path.Combine(Engine.Current.AppPath, "Neos_Data", "Plugins");
-                UniLog.Log("Patched library path: " + __result);
+                Msg("Patched library path: " + __result);
                 return false;
             }
         }
@@ -93,7 +92,7 @@ namespace VideoPlayerFix
                 //if mime is a specific value, it will use the force video player value, which can
                 //allow unity's player to run, which we don't want
                 mime = null;
-                UniLog.Log("Forced libVLC in a video player");
+                Msg("Forced libVLC in a video player");
             }
         }
         /*

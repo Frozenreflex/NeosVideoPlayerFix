@@ -25,9 +25,6 @@
     <Reference Include="FrooxEngine">
       <HintPath>$(NeosPath)Neos_Data/Managed/FrooxEngine.dll</HintPath>
     </Reference>
-    <Reference Include="BaseX">
-      <HintPath>$(NeosPath)Neos_Data/Managed/BaseX.dll</HintPath>
-    </Reference>
     <Reference Include="NYoutubeDL">
       <HintPath>$(NeosPath)Neos_Data/Managed/NYoutubeDL.dll</HintPath>
     </Reference>
