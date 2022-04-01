@@ -2,32 +2,34 @@
 
   <PropertyGroup>
     <TargetFramework>net4.7.2</TargetFramework>
+    <NeosPath>$(MSBuildThisFileDirectory)NeosVR</NeosPath>
+    <NeosPath Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\NeosVR\')">C:\Program Files (x86)\Steam\steamapps\common\NeosVR\</NeosPath>
+    <NeosPath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/NeosVR/')">$(HOME)/.steam/steam/steamapps/common/NeosVR/</NeosPath>
+    <NeosPath Condition="Exists('/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/')">/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/</NeosPath>
   </PropertyGroup>
 
   <ItemGroup>
     <Reference Include="UnityNeos">
-      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/UnityNeos.dll</HintPath>
+      <HintPath>$(NeosPath)Neos_Data/Managed/UnityNeos.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>$(NeosPath)Neos_Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="Assembly">
-      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/Assembly-CSharp.dll</HintPath>
+      <HintPath>$(NeosPath)Neos_Data/Managed/Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="NeosModLoader">
-      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/NeosModLoader.dll</HintPath>
+      <HintPath>$(NeosPath)NeosModLoader.dll</HintPath>
+      <HintPath>$(NeosPath)Libraries/NeosModLoader.dll</HintPath>
     </Reference>
     <Reference Include="FrooxEngine">
-      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/FrooxEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="BaseX">
-      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/BaseX.dll</HintPath>
+      <HintPath>$(NeosPath)Neos_Data/Managed/FrooxEngine.dll</HintPath>
     </Reference>
     <Reference Include="NYoutubeDL">
-      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/Neos_Data/Managed/NYoutubeDL.dll</HintPath>
+      <HintPath>$(NeosPath)Neos_Data/Managed/NYoutubeDL.dll</HintPath>
     </Reference>
     <Reference Include="HarmonyLib">
-      <HintPath>/mnt/LocalDisk/SteamLibrary/steamapps/common/NeosVR/0Harmony.dll</HintPath>
+      <HintPath>$(NeosPath)0Harmony.dll</HintPath>
     </Reference>
   </ItemGroup>
 
