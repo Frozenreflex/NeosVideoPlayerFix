@@ -41,7 +41,6 @@ var harmony = new Harmony("NeosVideoPlayerFixHarmony");
  #10 mono_install_unhandled_exception_hook
  #11  (Mono JIT Code) (wrapper managed-to-native) System.Reflection.MonoField:SetValueInternal (System.Reflection.FieldInfo,object,object)
 ```
-If I'm interpreting the logs correctly, the library path is set to nothing.
 
 ### NYoutubeDL
 
