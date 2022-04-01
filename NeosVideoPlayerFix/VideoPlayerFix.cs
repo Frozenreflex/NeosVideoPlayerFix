@@ -15,7 +15,7 @@ namespace VideoPlayerFix
     {
         public override string Name => "VideoPlayerFix";
         public override string Author => "Fro Zen";
-        public override string Version => "3.2.0";
+        public override string Version => "3.3.0";
 
         private static bool _first_trigger = false;
         private static string YoutubeDLPath = "";
