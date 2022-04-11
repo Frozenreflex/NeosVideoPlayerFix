@@ -15,7 +15,7 @@ namespace VideoPlayerFix
     {
         public override string Name => "VideoPlayerFix";
         public override string Author => "Fro Zen";
-        public override string Version => "3.3.0";
+        public override string Version => "3.3.1";
 
         private static bool _first_trigger = false;
         private static string YoutubeDLPath = "";
@@ -43,7 +43,7 @@ namespace VideoPlayerFix
             
             //find valid YTDL locations
             var path = Environment.GetEnvironmentVariable("PATH");
-            var paths = path.Split(':');
+            var paths = path.Split(Path.PathSeparator);
             var programs = new [] {"yt-dlp", "youtube-dl"};
             foreach (var p in programs)
             {
@@ -75,8 +75,8 @@ namespace VideoPlayerFix
             public static void SetupPreparePatch(YoutubeDL ydl)
             {
                 //NYoutubeDL has logic to set the youtube-dl path according to the environment PATH,
-                //...but it doesn't seem to work for some reason, so it gets set to just "youtube-dl"
-                //this will manually set it to a valid youtube-dl location
+                //but this doesn't work because it's set to an invalid path when initialized
+                //this will set it to a valid youtube-dl location
                 ydl.YoutubeDlPath = YoutubeDLPath;
             }
         }
