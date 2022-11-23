@@ -4,13 +4,7 @@ A [NeosModLoader](https://github.com/zkxs/NeosModLoader) mod for [Neos VR](https
 
 A local install of [yt-dlp](https://github.com/yt-dlp/yt-dlp) or [YoutubeDL](https://github.com/ytdl-org/youtube-dl) is required for Youtube videos to work on Linux Native. 
 
-yt-dlp installation instructions are on their Github page
-
-YoutubeDL can be installed using APT or using the instructions on their Github page
-
-```
-sudo apt install youtube-dl python python3
-```
+If you encounter errors in-game, such as crashes and videos not working, including videos from local files, but the log still reports patching correctly, then I can't provide support. Neos is hilariously out of date and all this mod does is change two strings to make libraries load properly when they didn't before. Ask the Neos team to make this mod obsolete. 🙃
 
 ## For Neos Developers
 
@@ -83,7 +77,7 @@ Providing a string overrides the default initialization, and the default initial
 ```cs
     if (youtubeDL == null)
     {
-        string exec = base.Engine.Platform == Platform.Windows ? "RuntimeData\\yt-dlp.exe" : "yt-dlp"; //put executible path here
+        string exec = base.Engine.Platform == Platform.Windows ? "RuntimeData\\yt-dlp.exe" : "yt-dlp"; //put executable path here
         string path = Path.Combine(base.Engine.AppPath, exec);
         if (!File.Exists(path)) return;
         youtubeDL = new YoutubeDL(path);
