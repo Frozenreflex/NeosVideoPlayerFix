@@ -15,7 +15,7 @@ namespace VideoPlayerFix
     {
         public override string Name => "VideoPlayerFix";
         public override string Author => "Fro Zen";
-        public override string Version => "3.3.1";
+        public override string Version => "3.4.0";
 
         private static bool _first_trigger = false;
         private static string YoutubeDLPath = "";
@@ -43,13 +43,12 @@ namespace VideoPlayerFix
             
             //find valid YTDL locations (and add the local directory)
             var path = Environment.GetEnvironmentVariable("PATH");
-            path += Path.PathSeparator + Engine.Current.AppPath;
-            var paths = path.Split(Path.PathSeparator);
+            var paths = path.Split(Path.PathSeparator).Append(Engine.Current.AppPath);
             var programs = new [] {"yt-dlp", "youtube-dl"};
             foreach (var p in programs)
             {
-                var test = paths.FirstOrDefault(i => File.Exists($"{i}/{p}")) + $"/{p}";
-                if (test == $"/{p}") continue;
+                var test = paths.Select(i => Path.Combine(i, p)).FirstOrDefault(File.Exists);
+                if (string.IsNullOrWhiteSpace(test)) continue;
                 YoutubeDLPath = test;
                 Msg($"Patched NYoutubeDL with {p}: {test}");
                 return;
