@@ -30,6 +30,7 @@
     </Reference>
     <Reference Include="HarmonyLib">
       <HintPath>$(NeosPath)0Harmony.dll</HintPath>
+      <HintPath>$(NeosPath)nml_libs/0Harmony.dll</HintPath>
     </Reference>
   </ItemGroup>
 
