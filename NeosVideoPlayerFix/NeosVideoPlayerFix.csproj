@@ -19,8 +19,8 @@
       <HintPath>$(NeosPath)Neos_Data/Managed/Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="NeosModLoader">
-      <HintPath>$(NeosPath)NeosModLoader.dll</HintPath>
-      <HintPath>$(NeosPath)Libraries/NeosModLoader.dll</HintPath>
+      <HintPath Condition="Exists('$(NeosPath)NeosModLoader.dll')">$(NeosPath)NeosModLoader.dll</HintPath>
+      <HintPath Condition="Exists('$(NeosPath)Libraries/NeosModLoader.dll')">$(NeosPath)Libraries/NeosModLoader.dll</HintPath>
     </Reference>
     <Reference Include="FrooxEngine">
       <HintPath>$(NeosPath)Neos_Data/Managed/FrooxEngine.dll</HintPath>
@@ -29,8 +29,8 @@
       <HintPath>$(NeosPath)Neos_Data/Managed/NYoutubeDL.dll</HintPath>
     </Reference>
     <Reference Include="HarmonyLib">
-      <HintPath>$(NeosPath)0Harmony.dll</HintPath>
-      <HintPath>$(NeosPath)nml_libs/0Harmony.dll</HintPath>
+      <HintPath Condition="Exists('$(NeosPath)0Harmony.dll')">$(NeosPath)0Harmony.dll</HintPath>
+      <HintPath Condition="Exists('$(NeosPath)nml_libs/0Harmony.dll')">$(NeosPath)nml_libs/0Harmony.dll</HintPath>
     </Reference>
   </ItemGroup>
 
