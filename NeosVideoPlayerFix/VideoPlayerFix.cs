@@ -41,8 +41,9 @@ namespace VideoPlayerFix
             var ydlMethod = ydlClass.GetMethod("SetupPrepare", BindingFlags.NonPublic | BindingFlags.Static);
             harmony.Patch(ydlMethod, new HarmonyMethod(typeof(YoutubeDLPatch).GetMethod("SetupPreparePatch")));
             
-            //find valid YTDL locations
+            //find valid YTDL locations (and add the local directory)
             var path = Environment.GetEnvironmentVariable("PATH");
+            path += Path.PathSeparator + Engine.Current.AppPath;
             var paths = path.Split(Path.PathSeparator);
             var programs = new [] {"yt-dlp", "youtube-dl"};
             foreach (var p in programs)
