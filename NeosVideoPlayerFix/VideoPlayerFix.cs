@@ -11,30 +11,47 @@ using UMP;
 using NYoutubeDL;
 namespace VideoPlayerFix
 {
+    public enum PlayerMode
+    {
+        DisableNone,
+        DisableUnityNative,
+        DisableLibVLC
+    }
     public class VideoPlayerFix : NeosMod
     {
         public override string Name => "VideoPlayerFix";
         public override string Author => "Fro Zen";
-        public override string Version => "3.4.0";
+        public override string Version => "4.0.0";
 
         private static bool _first_trigger = false;
         private static string YoutubeDLPath = "";
 
+        [AutoRegisterConfigKey]
+        public readonly ModConfigurationKey<PlayerMode> VideoPlayerMode = new ModConfigurationKey<PlayerMode>("VideoPlayerMode", "Video Player Mode (Requires Restart)",
+            () => Engine.Current.IsWine || Engine.Current.Platform != Platform.Windows
+                ? PlayerMode.DisableUnityNative
+                : PlayerMode.DisableLibVLC);
+
         public override void OnEngineInit()
         {
             var harmony = new Harmony("NeosVideoPlayerFixHarmony");
-            //as an absolute backup, Unity Native isn't even a thing anymore, so we don't have to worry about it loading
-            //if one wanted to limit this to Proton/Wine, this can be encapsulated with "if (Engine.Current.IsWine){}"
-            var engines = PlaybackEngine.PlaybackEngines;
-            var nativePlayer = engines.Find(i => i.Name == "Unity Native");
-            if (nativePlayer != default)
+            var config = GetConfiguration();
+            var mode = config.GetValue(VideoPlayerMode);
+            if (mode != PlayerMode.DisableNone)
             {
-                engines.Remove(nativePlayer);
-                Msg("Removed Unity Native from valid playback engines.");
+                var disable = mode == PlayerMode.DisableUnityNative ? "Unity Native" : "libVLC";
+                var engines = PlaybackEngine.PlaybackEngines;
+                var disablePlayer = engines.Find(i => i.Name == disable);
+                if (disablePlayer != default)
+                {
+                    engines.Remove(disablePlayer);
+                    Msg($"Removed {disable} from valid playback engines.");
+                }
             }
-            harmony.PatchAll();
-            
             if (Engine.Current.Platform != Platform.Linux) return;
+
+            harmony.Patch(typeof(UMPSettings).GetMethod("get_LibrariesPath"),
+                new HarmonyMethod(typeof(WrapperPatch).GetMethod("WrapperLibraryPatch")));
 
             //patch internal setupprepare method
             var ydlClass = AccessTools.AllTypes().First(i => i.ToString().EndsWith("Services.PreparationService"));
@@ -55,16 +72,11 @@ namespace VideoPlayerFix
             }
             Msg("Could not find a valid program to patch NYoutubeDL with");
         }
-
-        [HarmonyPatch(typeof(UMPSettings))]
         class WrapperPatch
         {
-            [HarmonyPrefix]
-            [HarmonyPatch("get_LibrariesPath")]
             public static bool WrapperLibraryPatch(ref string __result)
             {
                 //Fix video players by setting the library path properly
-                if (Engine.Current.Platform != Platform.Linux) return true;
                 __result = Path.Combine(Engine.Current.AppPath, "Neos_Data", "Plugins");
                 Msg("Patched library path: " + __result);
                 return false;
@@ -80,6 +92,7 @@ namespace VideoPlayerFix
                 ydl.YoutubeDlPath = YoutubeDLPath;
             }
         }
+        /*
         [HarmonyPatch(typeof(VideoTextureProvider))]
         class VideoTextureProviderPatch
         {
@@ -95,6 +108,7 @@ namespace VideoPlayerFix
                 Msg("Forced libVLC in a video player");
             }
         }
+        */
         /*
         [HarmonyPatch(typeof(FrooxEngine.WorldConfiguration))]
         class WorldConfigurationPatch

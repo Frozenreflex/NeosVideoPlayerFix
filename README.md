@@ -1,6 +1,8 @@
 # VideoPlayerFix
 
-A [NeosModLoader](https://github.com/zkxs/NeosModLoader) mod for [Neos VR](https://neos.com/) that fixes a crash in Proton by forcing libVLC on all video players, and fixes video player playback on Linux Native.
+A [NeosModLoader](https://github.com/zkxs/NeosModLoader) mod for [Neos VR](https://neos.com/) that fixes a lot of things related to video players.
+
+On Linux Native, video players now work properly. On Linux with Proton, Unity Native is disabled by default to prevent a crash. On Windows, LibVLC is disabled by default. The media player which gets disabled can be configured.
 
 A local install of [yt-dlp](https://github.com/yt-dlp/yt-dlp) or [YoutubeDL](https://github.com/ytdl-org/youtube-dl) is required for Youtube videos to work on Linux Native. 
 
