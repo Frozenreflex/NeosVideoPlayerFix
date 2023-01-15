@@ -95,18 +95,12 @@ public class VideoPlayerFix : NeosMod
 
     private class YoutubeDLPatch
     {
-        public static void SetupPreparePatch(YoutubeDL ydl)
-        {
+        public static void SetupPreparePatch(YoutubeDL ydl) =>
             //NYoutubeDL has logic to set the youtube-dl path according to the environment PATH,
             //but this doesn't work because it's set to an invalid path when initialized
             //this will set it to a valid youtube-dl location
             ydl.YoutubeDlPath = YoutubeDLPath;
-        }
-        public static bool SetupPrepareRemovePatch(YoutubeDL ydl)
-        {
-            //prevent ydl from running
-            return false;
-        }
+        public static bool SetupPrepareRemovePatch(YoutubeDL ydl) => throw new Exception();
     }
     /*
     [HarmonyPatch(typeof(VideoTextureProvider))]
