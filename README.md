@@ -1,5 +1,7 @@
 # VideoPlayerFix
 
+NeosVR is dead. This mod is no longer relevant. Resonite still has the same issue, but as of archiving this repository, is completely unplayable on Linux Native anyway.
+
 A [NeosModLoader](https://github.com/zkxs/NeosModLoader) mod for [Neos VR](https://neos.com/) that fixes a lot of things related to video players.
 
 On Linux Native, video players now work properly. On Linux with Proton, Unity Native is disabled by default to prevent a crash. On Windows, LibVLC is disabled by default. The media player which gets disabled can be configured.
